@@ -1,0 +1,34 @@
+---
+- name: Install Docker and Apache
+  hosts: local
+  become: yes
+
+  tasks:
+
+    - name: Install Docker
+      dnf:
+        name: docker
+        state: present
+
+    - name: Start Docker
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Install Apache
+      dnf:
+        name: httpd
+        state: present
+
+    - name: Start Apache
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: Create test page
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <h1>Apache Installed Through Jenkins + Ansible</h1>
